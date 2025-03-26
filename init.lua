@@ -130,6 +130,8 @@ vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
+vim.opt.spelllang = 'de_de'
+vim.opt.spell = true
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -663,6 +665,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        phpactor = {},
+        html = {},
+        ts_ls = {},
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
