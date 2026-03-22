@@ -1,0 +1,15 @@
+return {
+  require 'plugins.vim-sleuth',
+  require 'plugins.gitsigns',
+  require 'plugins.which-key',
+  require 'plugins.lazydev',
+  require 'plugins.lspconfig',
+  require 'plugins.telescope',
+  require 'plugins.conform',
+  require 'plugins.cmp',
+  require 'plugins.colorscheme',
+  require 'plugins.todo-comments',
+  require 'plugins.mini',
+  require 'plugins.treesitter',
+  require 'plugins.tree',
+}

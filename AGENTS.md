@@ -42,9 +42,35 @@ stylua path/to/file.lua
 
 ### File Organization
 ```
-lua/kickstart/plugins/     # Core plugin configurations
-lua/custom/plugins/        # User customizations
-init.lua                   # Main configuration file
+lua/
+├── core/               # Core configurations
+│   ├── options.lua     # Basic options
+│   ├── keymaps.lua    # Keybindings
+│   └── autocmds.lua   # Autocommands
+├── lsp/                # LSP configuration
+│   ├── init.lua       # Main LSP setup + Mason
+│   ├── handlers.lua   # LspAttach autocmd + keymaps
+│   ├── diagnostics.lua # Diagnostic settings
+│   └── servers/        # Per-server configurations
+│       ├── lua_ls.lua
+│       ├── ts_ls.lua
+│       ├── phpactor.lua
+│       └── html.lua
+├── plugins/            # Plugin configurations
+│   ├── init.lua       # Imports all plugins (order = priority)
+│   ├── vim-sleuth.lua # Tab detection
+│   ├── gitsigns.lua   # Git integration
+│   ├── which-key.lua  # Key binding help
+│   ├── lazydev.lua    # Lua LSP for config
+│   ├── lspconfig.lua  # LSP plugin
+│   ├── telescope.lua  # Fuzzy finder
+│   ├── conform.lua    # Code formatting
+│   ├── cmp.lua        # Autocompletion
+│   ├── colorscheme.lua # Color theme
+│   ├── todo-comments.lua # Todo highlighting
+│   ├── mini.lua       # Mini utilities
+│   └── treesitter.lua # Syntax highlighting
+init.lua                # Main entry point
 ```
 
 ### Plugin Configuration Pattern
@@ -128,10 +154,19 @@ Currently configured for:
 - **HTML**: html LSP
 
 ### Adding New Plugins
-1. Create new file in `lua/kickstart/plugins/` or add to `init.lua`
-2. Follow the plugin configuration pattern above
-3. Use lazy loading where possible
-4. Include key mappings and descriptions
+1. Create new file in `lua/plugins/` (e.g., `my-plugin.lua`)
+2. Return plugin spec from the file
+3. Add `require('plugins.my-plugin')` to `lua/plugins/init.lua`
+4. Follow the plugin configuration pattern above
+5. Use lazy loading when possible
+6. Include key mappings and descriptions
+
+### Adding Language Servers
+1. Create new file in `lua/lsp/servers/` (e.g., `pyright.lua`)
+2. Return server configuration from the file
+3. Server is auto-loaded by `lua/lsp/init.lua`
+4. Install with `:Mason`
+5. Add treesitter parser to `lua/plugins/treesitter.lua` if needed
 
 ## Testing and Validation
 
@@ -154,9 +189,10 @@ This configuration includes German language support:
 ## Customization Guidelines
 
 ### User Customizations
-- Add custom plugins to `lua/custom/plugins/init.lua`
-- Override core configurations in `lua/custom/` directory
-- Maintain separation between core and custom configurations
+- Create new plugin file in `lua/plugins/`
+- Add require to `lua/plugins/init.lua`
+- Core options in `lua/core/options.lua`
+- Keybindings in `lua/core/keymaps.lua`
 
 ### Performance Considerations
 - Use lazy loading for heavy plugins
@@ -166,10 +202,10 @@ This configuration includes German language support:
 ## Common Tasks
 
 ### Adding Language Support
-1. Install LSP server via Mason (`:Mason`)
-2. Configure LSP in plugin spec
-3. Add relevant treesitter parsers
-4. Set up file type-specific autocommands
+1. Create server config in `lua/lsp/servers/`
+2. Install LSP server via Mason (`:Mason`)
+3. Add relevant treesitter parsers to `lua/plugins/treesitter.lua`
+4. Set up file type-specific autocommands if needed
 
 ### Debugging Configuration
 - Use `:lua print(vim.inspect(variable))` for debugging
